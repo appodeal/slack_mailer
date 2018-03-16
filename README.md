@@ -27,6 +27,22 @@ Add queue for sidekiq in to config/sidekiq.yml
 - [slack_messages, 1]
 ```
 
+Configure sidekiq retries in config/initializers/sidekiq.rb
+```ruby
+class SidekiqMiddleware
+  def call(worker, msg, _queue)
+    worker.retry_count = msg['retry_count'] if worker.respond_to?(:retry_count)
+    yield
+  end
+end
+
+Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add SidekiqMiddleware
+  end
+end
+```
+
 Create configuration file config/initializers/slack_mailer.rb
 
 ```ruby

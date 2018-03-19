@@ -46,7 +46,7 @@ end
 Create configuration file config/initializers/slack_mailer.rb
 
 ```ruby
-Slack::Mailer.configure do |config|
+Slack::Mailer::Configuration.configure do |config|
   config.templates_path = "#{Rails.root}/app/views/slack_templates/"
   config.templates_type = 'text'
   config.erb_in_templates = true

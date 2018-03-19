@@ -17,7 +17,8 @@ module Slack
 
       def send_direct_message(channel = '', name = '', message = '')
         return if channel.empty? || name.empty? || message.empty?
-        url = Slack::Mailer::Configuration.config.slack_hook_urls.mrandom
+        urls = Slack::Mailer::Configuration.config.slack_hook_urls
+        url = urls[rand(0...urls.length)]
         Slack::Notifier.new(url, username: name, channel: channel, link_names: 1).ping(message)
       end
 

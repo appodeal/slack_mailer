@@ -40,5 +40,12 @@ module Slack
       ActionView::Base.new("#{Slack::Mailer::Configuration.config.templates_path}/#{self.class.name.underscore}",
                            {}, ActionController::Base.new).render(file: template, locals: instance_variables || {})
     end
+
+    def slack_hook_url
+      @slack_hook_urls ||= Slack::Mailer::Configuration.config.slack_hook_urls
+      url = @slack_hook_urls.shift
+      @slack_hook_urls.push(url)
+      url
+    end
   end
 end

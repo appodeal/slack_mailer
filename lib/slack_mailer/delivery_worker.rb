@@ -13,11 +13,7 @@ module Slack
         Slack::Mailer::DeliveryWorker.perform_async(msg['args'][0])
       end
 
-      attr_accessor :name, :channel, :message, :retry_count
-
-      def retry_count
-        @retry_count || 0
-      end
+      attr_accessor :name, :channel, :message
 
       def perform(params)
         params.each{ |attribute, value| send("#{attribute}=", value) if respond_to?(attribute) }

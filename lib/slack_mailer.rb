@@ -4,8 +4,8 @@ require 'slack-notifier'
 
 module Slack
   class Mailer
-    class << self
 
+    class << self
       def method_missing(method, *args)
         self.new.send(method, *args)
       end
@@ -17,11 +17,9 @@ module Slack
 
       def send_direct_message(channel = '', name = '', message = '')
         return if channel.empty? || name.empty? || message.empty?
-        urls = Slack::Mailer::Configuration.config.slack_hook_urls
-        url = urls[rand(0...urls.length)]
-        Slack::Notifier.new(url, username: name, channel: channel, link_names: 1).ping(message)
+        Slack::Notifier.new(Slack::Mailer::Configuration.slack_hook_url, username: name, channel: channel, link_names: 1)
+          .ping(message)
       end
-
     end
 
     def mail(to: nil, template: nil, use_sidekiq: true)
@@ -40,5 +38,6 @@ module Slack
       ActionView::Base.new("#{Slack::Mailer::Configuration.config.templates_path}/#{self.class.name.underscore}",
                            {}, ActionController::Base.new).render(file: template, locals: instance_variables || {})
     end
+
   end
 end

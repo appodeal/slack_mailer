@@ -11,17 +11,25 @@ module Slack
         @slack_hook_urls = nil
       end
 
-      def self.config
-        @configuration ||= Slack::Mailer::Configuration.new
+      class << self
+        def config
+          @configuration ||= Slack::Mailer::Configuration.new
+        end
+
+        def reset
+          @configuration = Slack::Mailer::Configuration.new
+        end
+
+        def configure
+          yield(config)
+        end
+
+        def slack_hook_url
+          @slack_hook_urls_size ||= config.slack_hook_urls.size
+          config.slack_hook_urls[Time.now.to_i % @slack_hook_urls_size]
+        end
       end
 
-      def self.reset
-        @configuration = Slack::Mailer::Configuration.new
-      end
-
-      def self.configure
-        yield(config)
-      end
     end
   end
 end

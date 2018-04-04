@@ -4,6 +4,7 @@ require 'slack-notifier'
 
 module Slack
   class Mailer
+
     class << self
 
       def method_missing(method, *args)
@@ -42,10 +43,8 @@ module Slack
     end
 
     def slack_hook_url
-      @slack_hook_urls ||= Slack::Mailer::Configuration.config.slack_hook_urls
-      url = @slack_hook_urls.shift
-      @slack_hook_urls.push(url)
-      url
+      id = Time.now.to_i % Slack::Mailer::Configuration.config.slack_hook_urls.size
+      Slack::Mailer::Configuration.config.slack_hook_urls[id]
     end
   end
 end

@@ -17,7 +17,8 @@ module Slack
 
       def perform(params)
         params.each{ |attribute, value| send("#{attribute}=", value) if respond_to?(attribute) }
-        Slack::Notifier.new(Slack::Mailer.slack_hook_url, username: name, channel: channel, link_names: 1).ping(message)
+        Slack::Notifier.new(Slack::Mailer::Configuration.slack_hook_url, username: name, channel: channel, link_names: 1)
+          .ping(message)
       end
     end
   end

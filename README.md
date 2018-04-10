@@ -1,4 +1,5 @@
 # SlackMailer
+SlackMailer gem helps separate business logic from logic of message delivery. It structures code just like ActionMailer.
 
 ## Installation
 
@@ -38,6 +39,7 @@ Slack::Mailer::Configuration.configure do |config|
                             'https://hooks.slack.com/services/...........']
 end
 ```
+Gem is balancing messages by hooks. It helps don't reached messages limit by hook per 1 second.
 
 ## Usage
 

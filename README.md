@@ -18,11 +18,11 @@ Or install it yourself as:
     $ gem install slack_mailer
 ## Dependencies
 
-Before using game you need install [sidekiq](https://github.com/mperham/sidekiq) in to your project.
+Before using gem you need install [sidekiq](https://github.com/mperham/sidekiq) in to your project.
 
 ## Configuring
 
-Add queue for sidekiq in to config/sidekiq.yml
+Add queue for sidekiq to config/sidekiq.yml
 
 ```yml
 - [slack_messages, 1]
@@ -39,7 +39,7 @@ Slack::Mailer::Configuration.configure do |config|
                             'https://hooks.slack.com/services/...........']
 end
 ```
-Gem is balancing messages by hooks. It helps don't reached messages limit by hook per 1 second.
+Gem balances messages by hooks. It helps not to reach a message limit through 1 hook per 1 second.
 
 ## Usage
 
@@ -56,7 +56,7 @@ class UserMailer < Slack::Mailer
 end
 ```
 
-If you want to send message via Mailer without sidekiq
+If you want to send a message via Mailer without sidekiq
 ```ruby
 class UserMailer < Slack::Mailer
 
@@ -85,7 +85,7 @@ Sending small messages(one line message)
 Slack::Mailer.send_message('#channel', 'name', 'message')
 ```
 
-Sending message bypassing sidekiq
+ Sending message by passing sidekiq
 ```ruby
 Slack::Mailer.send_direct_message('#channel', 'name', 'message')
 ```

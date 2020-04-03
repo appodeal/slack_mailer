@@ -1,6 +1,7 @@
 require_relative 'slack_mailer/configuration'
 require_relative 'slack_mailer/delivery_worker'
 require 'slack-notifier'
+require 'erb'
 
 module Slack
   class Mailer

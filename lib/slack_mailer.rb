@@ -34,9 +34,11 @@ module Slack
 
     def collect_message(template, instance_variables)
       template = "#{template}.#{Slack::Mailer::Configuration.config.templates_type}"
-      template + '.erb' if Slack::Mailer::Configuration.config.erb_in_templates
-      ActionView::Base.new("#{Slack::Mailer::Configuration.config.templates_path}/#{self.class.name.underscore}",
-                           {}, ActionController::Base.new).render(file: template, locals: instance_variables || {})
+      template << '.erb' if Slack::Mailer::Configuration.config.erb_in_templates
+
+      ERB.new(
+        File.read("#{Slack::Mailer::Configuration.config.templates_path}/#{self.class.name.underscore}/#{template}")
+      ).result(binding)
     end
 
   end
